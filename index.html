@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Essential Eight Self-Assessment | Cyber Harmony</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --ink:#060810;
+  --ink2:#0d1120;
+  --surface:#f5f3ef;
+  --accent:#e8380a;
+  --accent2:#ff6b3d;
+  --gold:#c9a84c;
+  --gold-l:#f5e6c0;
+  --green:#0a7c4e;
+  --green-l:#d4f0e4;
+  --white:#ffffff;
+  --grey:#e8e5df;
+  --grey2:#c8c4bc;
+  --syne:'Syne',sans-serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--sans);
+  background:var(--ink);
+  color:var(--white);
+  overflow-x:hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:1000;
+  opacity:.4;
+}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  padding:0;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Background grid */
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(232,56,10,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,56,10,.04) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+
+/* Glow blob */
+.glow{
+  position:absolute;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(232,56,10,.15) 0%, transparent 70%);
+  top:-100px;right:-100px;
+  pointer-events:none;
+  animation:pulse 6s ease-in-out infinite;
+}
+.glow2{
+  position:absolute;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(201,168,76,.08) 0%, transparent 70%);
+  bottom:100px;left:-50px;
+  pointer-events:none;
+  animation:pulse 8s ease-in-out infinite reverse;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.1);opacity:.7;}
+}
+
+/* ── NAV ── */
+nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:24px 48px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  position:relative;
+  z-index:10;
+}
+.nav-logo{
+  font-family:var(--mono);
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.2em;
+  color:var(--accent2);
+  text-transform:uppercase;
+  text-decoration:none;
+}
+.nav-badge{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.15em;
+  color:rgba(255,255,255,.3);
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.1);
+  padding:5px 12px;
+  border-radius:2px;
+}
+
+/* ── HERO CONTENT ── */
+.hero-content{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:60px 48px;
+  position:relative;
+  z-index:10;
+}
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.25em;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.eyebrow::before,.eyebrow::after{
+  content:'';
+  width:40px;height:1px;
+  background:var(--accent);
+  opacity:.5;
+}
+
+.hero-title{
+  font-family:var(--syne);
+  font-size:clamp(42px,7vw,88px);
+  font-weight:800;
+  line-height:.95;
+  letter-spacing:-.03em;
+  margin-bottom:8px;
+  max-width:900px;
+}
+.hero-title .line1{color:var(--white);}
+.hero-title .line2{
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.2);
+}
+.hero-title .accent{
+  color:var(--accent);
+  position:relative;
+}
+.hero-title .accent::after{
+  content:'';
+  position:absolute;
+  bottom:-4px;left:0;right:0;
+  height:3px;
+  background:linear-gradient(90deg,var(--accent),transparent);
+}
+
+.hero-sub{
+  font-family:var(--sans);
+  font-size:18px;
+  font-weight:300;
+  color:rgba(255,255,255,.5);
+  max-width:560px;
+  line-height:1.6;
+  margin:24px 0 48px;
+}
+
+.hero-cta{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.btn-primary{
+  background:var(--accent);
+  color:white;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:16px 36px;
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  transition:all .2s;
+  clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-2px);}
+.btn-secondary{
+  color:rgba(255,255,255,.5);
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition:color .2s;
+  border-bottom:1px solid rgba(255,255,255,.15);
+  padding-bottom:2px;
+}
+.btn-secondary:hover{color:white;}
+
+/* ── REALITY CHECK SECTION ── */
+.reality{
+  background:var(--surface);
+  color:var(--ink);
+  padding:80px 48px;
+}
+.reality-inner{
+  max-width:1100px;
+  margin:0 auto;
+}
+.section-label{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+}
+.section-title{
+  font-family:var(--syne);
+  font-size:clamp(28px,4vw,48px);
+  font-weight:700;
+  line-height:1.1;
+  margin-bottom:48px;
+  max-width:700px;
+}
+
+.checks-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2px;
+  margin-bottom:48px;
+}
+.check-item{
+  background:var(--white);
+  padding:28px;
+  border-left:3px solid transparent;
+  transition:all .2s;
+  position:relative;
+  overflow:hidden;
+}
+.check-item::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .3s;
+}
+.check-item:hover{border-left-color:var(--accent);}
+.check-item:hover::before{transform:scaleX(1);}
+
+.check-label{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.check-title{
+  font-family:var(--syne);
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:10px;
+  color:var(--ink);
+}
+.check-question{
+  font-size:13px;
+  color:rgba(10,15,32,.6);
+  line-height:1.6;
+  font-style:italic;
+}
+.check-icon{
+  font-size:22px;
+  margin-bottom:12px;
+}
+
+/* Maturity bar */
+.maturity-bar{
+  background:var(--ink);
+  color:white;
+  padding:32px 40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  flex-wrap:wrap;
+}
+.maturity-text{
+  font-family:var(--sans);
+  font-size:15px;
+  color:rgba(255,255,255,.7);
+  max-width:500px;
+  line-height:1.6;
+}
+.maturity-text strong{color:var(--accent2);}
+.maturity-levels{
+  display:flex;
+  gap:4px;
+  align-items:flex-end;
+}
+.ml-block{
+  text-align:center;
+}
+.ml-bar{
+  width:48px;
+  background:rgba(255,255,255,.1);
+  border-radius:2px 2px 0 0;
+  transition:background .3s;
+}
+.ml-bar.active{background:var(--accent);}
+.ml-bar.target{background:var(--gold);}
+.ml-label{
+  font-family:var(--mono);
+  font-size:9px;
+  color:rgba(255,255,255,.4);
+  margin-top:4px;
+  letter-spacing:.1em;
+}
+.ml-label.active{color:var(--accent2);}
+.ml-label.target{color:var(--gold);}
+
+/* ── DOWNLOAD SECTION ── */
+.download{
+  background:var(--ink2);
+  padding:80px 48px;
+  position:relative;
+  overflow:hidden;
+}
+.download::before{
+  content:'E8';
+  position:absolute;
+  font-family:var(--syne);
+  font-size:400px;
+  font-weight:800;
+  color:rgba(255,255,255,.015);
+  right:-40px;
+  top:50%;
+  transform:translateY(-50%);
+  line-height:1;
+  pointer-events:none;
+}
+.download-inner{
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+@media(max-width:768px){
+  .download-inner{grid-template-columns:1fr;}
+  nav{padding:20px 24px;}
+  .hero-content{padding:40px 24px;}
+  .reality{padding:60px 24px;}
+  .download{padding:60px 24px;}
+}
+
+.download-title{
+  font-family:var(--syne);
+  font-size:clamp(28px,3.5vw,44px);
+  font-weight:700;
+  line-height:1.1;
+  margin-bottom:16px;
+}
+.download-title span{color:var(--accent);}
+.download-desc{
+  font-size:15px;
+  color:rgba(255,255,255,.5);
+  line-height:1.7;
+  margin-bottom:32px;
+}
+
+.includes-list{
+  list-style:none;
+  margin-bottom:40px;
+}
+.includes-list li{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  font-size:14px;
+  color:rgba(255,255,255,.7);
+}
+.includes-list li::before{
+  content:'→';
+  color:var(--accent);
+  font-family:var(--mono);
+  flex-shrink:0;
+  margin-top:1px;
+}
+
+/* Download card */
+.download-card{
+  background:var(--surface);
+  color:var(--ink);
+  padding:40px;
+  position:relative;
+}
+.download-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:4px;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+}
+.card-label{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+}
+.card-title{
+  font-family:var(--syne);
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:6px;
+  color:var(--ink);
+}
+.card-sub{
+  font-size:13px;
+  color:rgba(10,15,32,.5);
+  margin-bottom:28px;
+}
+.card-meta{
+  display:flex;
+  gap:20px;
+  margin-bottom:28px;
+}
+.meta-item{
+  text-align:center;
+}
+.meta-val{
+  font-family:var(--syne);
+  font-size:22px;
+  font-weight:700;
+  color:var(--ink);
+  display:block;
+}
+.meta-lbl{
+  font-family:var(--mono);
+  font-size:9px;
+  color:rgba(10,15,32,.4);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+.form-group label{
+  display:block;
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:rgba(10,15,32,.4);
+  margin-bottom:6px;
+}
+.form-group input{
+  width:100%;
+  background:var(--white);
+  border:1.5px solid var(--grey);
+  padding:11px 14px;
+  font-family:var(--sans);
+  font-size:13px;
+  color:var(--ink);
+  transition:border-color .15s;
+  outline:none;
+}
+.form-group input:focus{border-color:var(--accent);}
+
+.btn-download{
+  width:100%;
+  background:var(--accent);
+  color:white;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  padding:15px;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  transition:all .2s;
+  margin-top:6px;
+}
+.btn-download:hover{background:var(--accent2);}
+.privacy-note{
+  font-size:11px;
+  color:rgba(10,15,32,.35);
+  text-align:center;
+  margin-top:10px;
+  font-family:var(--mono);
+}
+
+/* ── STATS ── */
+.stats{
+  background:var(--ink);
+  border-top:1px solid rgba(255,255,255,.06);
+  padding:48px;
+}
+.stats-inner{
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;
+}
+@media(max-width:600px){
+  .stats-inner{grid-template-columns:repeat(2,1fr);}
+}
+.stat-item{
+  padding:28px 24px;
+  background:rgba(255,255,255,.02);
+  text-align:center;
+}
+.stat-val{
+  font-family:var(--syne);
+  font-size:36px;
+  font-weight:800;
+  color:var(--accent2);
+  display:block;
+  line-height:1;
+  margin-bottom:6px;
+}
+.stat-lbl{
+  font-family:var(--mono);
+  font-size:10px;
+  color:rgba(255,255,255,.3);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink2);
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:28px 48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px;
+}
+.footer-logo{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.2em;
+  color:rgba(255,255,255,.3);
+  text-transform:uppercase;
+}
+.footer-links{
+  display:flex;
+  gap:24px;
+}
+.footer-links a{
+  font-family:var(--mono);
+  font-size:10px;
+  color:rgba(255,255,255,.25);
+  text-decoration:none;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  transition:color .15s;
+}
+.footer-links a:hover{color:var(--accent);}
+
+/* ── ANIMATIONS ── */
+.fade-up{
+  opacity:0;
+  transform:translateY(24px);
+  animation:fadeUp .7s ease forwards;
+}
+.fade-up:nth-child(1){animation-delay:.1s;}
+.fade-up:nth-child(2){animation-delay:.2s;}
+.fade-up:nth-child(3){animation-delay:.3s;}
+.fade-up:nth-child(4){animation-delay:.4s;}
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* success state */
+.success-msg{
+  display:none;
+  text-align:center;
+  padding:20px;
+}
+.success-msg .tick{
+  font-size:36px;
+  margin-bottom:10px;
+}
+.success-msg p{
+  font-family:var(--syne);
+  font-size:16px;
+  font-weight:600;
+  color:var(--green);
+  margin-bottom:6px;
+}
+.success-msg small{
+  font-size:12px;
+  color:rgba(10,15,32,.4);
+  font-family:var(--mono);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://cyberharmony.au" class="nav-logo">⬡ Cyber Harmony</a>
+  <span class="nav-badge">Essential Eight Assessment</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="glow"></div>
+  <div class="glow2"></div>
+  <div class="hero-content">
+    <div class="eyebrow fade-up">ASD Essential Eight Maturity Model</div>
+    <h1 class="hero-title fade-up">
+      <span class="line1">The Essential Eight.</span><br>
+      <span class="line1">You've heard of it.</span><br>
+      <span class="line2">But are you <span class="accent">actually</span></span><br>
+      <span class="line2">implementing it?</span>
+    </h1>
+    <p class="hero-sub fade-up">
+      Most Australian organisations sit at Maturity Level 1.
+      The ACSC recommends Level 2 as a baseline.
+      Find out where you stand — in minutes.
+    </p>
+    <div class="hero-cta fade-up">
+      <a href="#download" class="btn-primary">
+        📥 Download Free Checklist
+      </a>
+      <a href="#reality" class="btn-secondary">
+        See the reality check →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-val">8</span>
+      <span class="stat-lbl">Controls to Assess</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-val">ML0–3</span>
+      <span class="stat-lbl">Maturity Levels</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-val">48h</span>
+      <span class="stat-lbl">Patch SLA at ML2</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-val">Free</span>
+      <span class="stat-lbl">Self-Assessment</span>
+    </div>
+  </div>
+</div>
+
+<!-- REALITY CHECK -->
+<section class="reality" id="reality">
+  <div class="reality-inner">
+    <p class="section-label">// Reality Check</p>
+    <h2 class="section-title">Quick maturity check — answer honestly</h2>
+
+    <div class="checks-grid">
+      <div class="check-item">
+        <div class="check-icon">🛡️</div>
+        <div class="check-label">E8-1 Application Control</div>
+        <div class="check-title">Do you know every app running on your endpoints?</div>
+        <div class="check-question">"Can you list every executable allowed to run — and prove nothing else can?"</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">🔧</div>
+        <div class="check-label">E8-2 Patch Applications</div>
+        <div class="check-title">Are you patching within 48 hours for internet-facing services?</div>
+        <div class="check-question">"How many days does it actually take from CVE published to patch deployed?"</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">🔐</div>
+        <div class="check-label">E8-7 Multi-Factor Authentication</div>
+        <div class="check-title">Is MFA enabled for ALL remote access — not just some?</div>
+        <div class="check-question">"Can you name the services that still use password-only authentication?"</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">👤</div>
+        <div class="check-label">E8-5 Restrict Admin Privileges</div>
+        <div class="check-title">When did you last audit who has domain admin?</div>
+        <div class="check-question">"Is your admin account count growing every time someone needs elevated access?"</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">💾</div>
+        <div class="check-label">E8-8 Regular Backups</div>
+        <div class="check-title">When did you last test restoring from backup?</div>
+        <div class="check-question">"Not just backing up — actually restoring. With a documented test result?"</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">⚙️</div>
+        <div class="check-label">E8-6 Patch Operating Systems</div>
+        <div class="check-title">Are your OS patches applied within two weeks?</div>
+        <div class="check-question">"How many endpoints in your fleet are running an unpatched OS right now?"</div>
+      </div>
+    </div>
+
+    <!-- Maturity bar -->
+    <div class="maturity-bar">
+      <div class="maturity-text">
+        <strong>Most Australian organisations are at ML1.</strong>
+        The ACSC recommends ML2 as a baseline — and government supply chains are increasingly requiring it.
+        Our free checklist helps you identify exactly where you are and what it takes to move up.
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;text-align:center;">Where is your organisation?</div>
+        <div class="maturity-levels">
+          <div class="ml-block">
+            <div class="ml-bar active" style="height:40px;"></div>
+            <div class="ml-label active">ML0</div>
+          </div>
+          <div class="ml-block">
+            <div class="ml-bar active" style="height:65px;"></div>
+            <div class="ml-label active">ML1 ← most</div>
+          </div>
+          <div class="ml-block">
+            <div class="ml-bar target" style="height:90px;"></div>
+            <div class="ml-label target">ML2 ← target</div>
+          </div>
+          <div class="ml-block">
+            <div class="ml-bar" style="height:115px;"></div>
+            <div class="ml-label">ML3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section class="download" id="download">
+  <div class="download-inner">
+    <div>
+      <p class="section-label" style="color:var(--accent);">// Free Download</p>
+      <h2 class="download-title">
+        Essential Eight<br>
+        <span>Self-Assessment</span><br>
+        Checklist
+      </h2>
+      <p class="download-desc">
+        A practical, no-fluff checklist covering all eight controls
+        across ML0 to ML3. Built for Australian IT teams and security
+        managers who need a clear picture of their current posture —
+        fast.
+      </p>
+      <ul class="includes-list">
+        <li>All 8 Essential Eight controls mapped to ML0–ML3 criteria</li>
+        <li>Plain-English questions your team can actually answer</li>
+        <li>Gap identification — see exactly what ML2 requires</li>
+        <li>Evidence checklist for each control</li>
+        <li>Aligned to the ACSC November 2023 Maturity Model</li>
+        <li>Works for Windows, Linux and macOS environments</li>
+      </ul>
+    </div>
+
+    <!-- Form card -->
+    <div class="download-card">
+      <div class="card-label">// Get the checklist</div>
+      <div class="card-title">Free Self-Assessment</div>
+      <div class="card-sub">Instant download — no sales call required</div>
+
+      <div class="card-meta">
+        <div class="meta-item">
+          <span class="meta-val">8</span>
+          <span class="meta-lbl">Controls</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-val">4</span>
+          <span class="meta-lbl">ML Levels</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-val">Free</span>
+          <span class="meta-lbl">Always</span>
+        </div>
+      </div>
+
+      <div id="downloadForm">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="fname" placeholder="Jane Smith"/>
+        </div>
+        <div class="form-group">
+          <label>Work Email</label>
+          <input type="email" id="femail" placeholder="jane@company.com.au"/>
+        </div>
+        <div class="form-group">
+          <label>Organisation</label>
+          <input type="text" id="forg" placeholder="Your company name"/>
+        </div>
+        <button class="btn-download" onclick="handleDownload()">
+          📥 Download Free Checklist
+        </button>
+        <p class="privacy-note">No spam. Unsubscribe anytime. 🇦🇺 Australian owned.</p>
+      </div>
+
+      <div class="success-msg" id="successMsg">
+        <div class="tick">✅</div>
+        <p>Your checklist is on its way!</p>
+        <small>Check your inbox at <span id="confirmedEmail"></span></small>
+        <br><br>
+        <small style="color:rgba(10,15,32,.3);">
+          Questions? admin@cyberharmony.au
+        </small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">⬡ Cyber Harmony Pty Ltd — cyberharmony.au</span>
+  <div class="footer-links">
+    <a href="https://cyberharmony.au">Home</a>
+    <a href="mailto:admin@cyberharmony.au">Contact</a>
+    <a href="https://cyberharmony.au/privacy">Privacy</a>
+  </div>
+</footer>
+
+<script>
+function handleDownload(){
+  const name  = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const org   = document.getElementById('forg').value.trim();
+
+  if(!name || !email){
+    alert('Please enter your name and email to download.');
+    return;
+  }
+
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  // Hide form, show success
+  document.getElementById('downloadForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+  document.getElementById('confirmedEmail').textContent = email;
+
+  // In production: POST to your backend / CRM / email service here
+  // fetch('/api/download', {method:'POST', body: JSON.stringify({name,email,org})})
+
+  // Trigger download (replace with your actual file URL)
+  const link = document.createElement('a');
+  link.href = '/downloads/CyberHarmony-E8-Self-Assessment-Checklist.pdf';
+  link.download = 'CyberHarmony-E8-Self-Assessment-Checklist.pdf';
+  link.click();
+}
+
+// Smooth scroll polyfill for older browsers
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))
+      ?.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
